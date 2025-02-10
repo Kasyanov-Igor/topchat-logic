@@ -13,11 +13,12 @@ namespace TopChat.Services
             this._db = db;
         }
 
-        public void Registration(string password, string login)
+        public bool Registration(string password, string login)
         {
-            if (_db.Users.Any(u => u.Login == login))
+            if (this._db.Users.Any(u => u.Login == login))
             {
-                Console.WriteLine("Такой логин уже существует. Пожалуйста, придумайте новый.");
+                Console.WriteLine(" Такой логин уже существует. Пожалуйста, придумайте новый. ");
+                return false;
             }
 
             User user = new User()
@@ -28,6 +29,7 @@ namespace TopChat.Services
 
             _db.Users.Add(user);
             _db.SaveChanges();
+            return true;
         }
     }
 }

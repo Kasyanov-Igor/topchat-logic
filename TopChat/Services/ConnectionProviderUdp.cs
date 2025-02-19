@@ -24,7 +24,7 @@ namespace TopChat.Services
 
 		public bool Send(byte[] data)
 		{
-			//this._udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+			this._udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 			this._udpClient.Send(data, data.Length, this._IPEndPoint);
 
 			return true;

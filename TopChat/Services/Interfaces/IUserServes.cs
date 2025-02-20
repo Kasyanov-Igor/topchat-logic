@@ -1,12 +1,13 @@
 ﻿using TopChat.Models;
+using TopChat.Models.Domains;
 
 namespace TopChat.Services.Interfaces
 {
 	public interface IUserServes
 	{
-		public bool Registration(string login, string password);
+		public bool Registration(User user);
 
-		public bool FindUser(string login);
+		public bool FindUser(User user);
 
 		public bool AddContact(User user, UserContact contact);
 

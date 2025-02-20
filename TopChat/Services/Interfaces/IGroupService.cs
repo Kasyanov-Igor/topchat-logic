@@ -1,8 +1,8 @@
-﻿using TopChat.Models;
+﻿using TopChat.Models.Entities;
 
 namespace TopChat.Services.Interfaces
 {
-	public interface IGroupService
+    public interface IGroupService
 	{
 		public bool AddGroup(string name);
 

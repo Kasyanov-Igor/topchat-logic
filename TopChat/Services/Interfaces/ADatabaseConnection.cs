@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TopChat.Models;
 using TopChat.Models.Domains;
+using TopChat.Models.Entities;
 
 namespace TopChat.Services.Interfaces
 {
-	public abstract class ADatabaseConnection : DbContext
+    public abstract class ADatabaseConnection : DbContext
 	{
 		protected abstract string ReturnConnectionString();
 

@@ -5,13 +5,13 @@ namespace TopChat.Services
 {
 	public class MethodConverter
 	{
-		private UserServes _userServes;
+		private UserService _userServes;
 
 		private ADatabaseConnection _connectionDB;
 
 		private ConnectionProviderUdp _connectionProviderUdp;
 
-		public MethodConverter(UserServes userServes, ConnectionProviderUdp connectionProviderUdp)
+		public MethodConverter(UserService userServes, ConnectionProviderUdp connectionProviderUdp)
 		{
 			this._userServes = userServes;
 			this._connectionProviderUdp = connectionProviderUdp;

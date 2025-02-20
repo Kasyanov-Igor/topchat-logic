@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
-using TopChat.Models;
+using TopChat.Models.Entities;
 using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-	public class DataBaseService : IDataBaseService
+    public class DataBaseService : IDataBaseService
 	{
 		private IDataConverterService _converterService;
 

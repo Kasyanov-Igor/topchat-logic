@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Linq;
-using TopChat.Models;
-using TopChat.Models.Domains;
+using TopChat.Models.Entities;
 using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-	public class UserServes : IUserServes
+    public class UserService : IUserServes
 	{
 		private ADatabaseConnection _db;
 
-		public UserServes(ADatabaseConnection db)
+		public UserService(ADatabaseConnection db)
 		{
 			this._db = db;
 		}
@@ -57,66 +56,9 @@ namespace TopChat.Services
 			return false;
 		}
 
-		public bool AddContact(User user, UserContact contact)
+		public User? GetUser(string login)
 		{
-
-			foreach (var userdb in this._db.Users)
-			{
-				if (userdb.Login == user.Login)
-				{
-					if (userdb.Contacts == null)
-					{
-						this._db.Users.Remove(userdb);
-
-						user.Contacts.Add(contact);
-
-						this.Registration(user);
-					}
-					else if (!userdb.Contacts.Any(u => u.UserName == contact.UserName))
-					{
-						userdb.Contacts.Add(contact);
-					}
-					else
-					{
-						Console.WriteLine("Такой contact уже существует. Пожалуйста, придумайте новый.");
-
-						return false;
-					}
-				}
-			};
-
-			this._db.SaveChanges();
-
-			return true;
+			return this._db.Users.Where(u => u.Login == login).FirstOrDefault();
 		}
-
-		public bool DeleteContact(User user, UserContact contact)
-		{
-			if (user.Contacts.Any(u => u.UserName != contact.UserName))
-			{
-				Console.WriteLine("There is no contact");
-				return false;
-			}
-
-			user.Contacts.Remove(contact);
-
-			return true;
-		}
-
-		public bool RenameContact(User user, UserContact contactOld, UserContact contactNew)
-		{
-			if (user.Contacts.Any(u => u.UserName != contactOld.UserName))
-			{
-				Console.WriteLine("There is no contact");
-
-				user.Contacts.Remove(contactOld);
-				user.Contacts.Add(contactNew);
-
-				return true;
-			}
-
-			return false;
-		}
-
 	}
 }

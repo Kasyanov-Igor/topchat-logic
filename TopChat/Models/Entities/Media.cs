@@ -1,4 +1,4 @@
-﻿namespace TopChat.Models
+﻿namespace TopChat.Models.Entities
 {
     public class Media
     {

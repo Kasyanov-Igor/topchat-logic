@@ -14,7 +14,6 @@ namespace TopChat.Infrastructure
 			services.AddScoped<IConnectionProvider, ConnectionProviderUdp>();
 			services.AddScoped<IMessageService, MessageServiceClient>();
 			services.AddScoped<INetworkDataService, NetworkDataService>();
-			services.AddScoped<IUserServes, UserServes>();
 		}
 	}
 }

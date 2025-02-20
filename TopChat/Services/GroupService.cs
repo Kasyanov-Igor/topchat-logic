@@ -1,15 +1,15 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using TopChat.Models;
 using TopChat.Services.Interfaces;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using TopChat.Models.Entities;
 
 namespace TopChat.Services
 {
-	public class GroupService : IGroupService
+    public class GroupService : IGroupService
 	{
 		public bool AddGroup(string name)
 		{

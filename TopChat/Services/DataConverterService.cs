@@ -4,13 +4,14 @@ using System.IO;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using TopChat.Models;
 using TopChat.Services.Interfaces;
 using System.Collections.Generic;
+using TopChat.Models.Entities;
+using TopChat.Models.Domains;
 
 namespace TopChat.Services
 {
-	public class DataConverterService : IDataConverterService
+    public class DataConverterService : IDataConverterService
 	{
 		public NetworkData ConvertToNetworkData(Message fromEntity) 
 		{

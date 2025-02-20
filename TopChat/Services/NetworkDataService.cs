@@ -1,10 +1,11 @@
 ﻿using System.Text;
-using TopChat.Models;
+using TopChat.Models.Domains;
+using TopChat.Models.Entities;
 using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-	public class NetworkDataService : INetworkDataService
+    public class NetworkDataService : INetworkDataService
 	{
 		private IConnectionProvider _connectionProvider;
 

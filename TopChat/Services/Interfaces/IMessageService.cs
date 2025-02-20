@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using TopChat.Models;
+using TopChat.Models.Domains;
+using TopChat.Models.Entities;
 
 namespace TopChat.Services.Interfaces
 {

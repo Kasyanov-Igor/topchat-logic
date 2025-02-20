@@ -1,8 +1,9 @@
-﻿using TopChat.Models;
+﻿using TopChat.Models.Domains;
+using TopChat.Models.Entities;
 
 namespace TopChat.Services.Interfaces
 {
-	public interface INetworkDataService
+    public interface INetworkDataService
 	{
 		public bool Send(NetworkData networkData);
 

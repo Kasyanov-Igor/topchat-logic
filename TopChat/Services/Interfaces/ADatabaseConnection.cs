@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TopChat.Models;
+using TopChat.Models.Domains;
 
 namespace TopChat.Services.Interfaces
 {
@@ -11,9 +12,9 @@ namespace TopChat.Services.Interfaces
 
 		public DbSet<User> Users => Set<User>();
 
-        public DbSet<UserContact> UserContacts => Set<UserContact>();
+		public DbSet<UserContact> UserContacts => Set<UserContact>();
 
-        public DbSet<Group> Groups => Set<Group>();
+		public DbSet<Group> Groups => Set<Group>();
 
 		public DbSet<NetworkData> NetworkDatas => Set<NetworkData>();
 

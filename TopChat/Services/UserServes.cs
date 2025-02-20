@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using DnsClient;
 using TopChat.Models;
+using TopChat.Models.Domains;
 using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
@@ -16,31 +15,43 @@ namespace TopChat.Services
 			this._db = db;
 		}
 
-		public bool Registration(string login, string password)
+		public bool Registration(User user)
 		{
-			if (this._db.Users.Any(u => u.Login == login))
+			try
 			{
-				Console.WriteLine("Такой логин уже существует. Пожалуйста, придумайте новый.");
-				return false;
+				if (!this.FindUser(user))
+				{
+
+					this._db.Users.Add(user);
+					this._db.SaveChanges();
+
+					return true;
+
+				}
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception.ToString());
 			}
 
-			User user = new User()
-			{
-				Login = login,
-				Password = password,
-			};
-
-			this._db.Users.Add(user);
-			this._db.SaveChanges();
-
-			return true;
+			return false;
 		}
 
-		public bool FindUser(string login)
+		public bool FindUser(User user)
 		{
-			if (this._db.Users.Any(u => u.Login == login))
+			try
 			{
-				return true;
+				if (this._db.Users.Any(usr =>
+				usr.Login == user.Login &&
+				usr.Password == user.Password))
+				{
+					return true;
+				}
+
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception.ToString());
 			}
 
 			return false;
@@ -48,20 +59,33 @@ namespace TopChat.Services
 
 		public bool AddContact(User user, UserContact contact)
 		{
-			//if(user.Contacts == null)
-			//{
-			//             user.Contacts.Add(contact);
 
-			//             return true;
-			//         }
-			if (user.Contacts.Any(u => u.UserName == contact.UserName))
+			foreach (var userdb in this._db.Users)
 			{
-				Console.WriteLine("Такой contact уже существует. Пожалуйста, придумайте новый.");
+				if (userdb.Login == user.Login)
+				{
+					if (userdb.Contacts == null)
+					{
+						this._db.Users.Remove(userdb);
 
-				return false;
-			}
+						user.Contacts.Add(contact);
 
-			user.Contacts.Add(contact);
+						this.Registration(user);
+					}
+					else if (!userdb.Contacts.Any(u => u.UserName == contact.UserName))
+					{
+						userdb.Contacts.Add(contact);
+					}
+					else
+					{
+						Console.WriteLine("Такой contact уже существует. Пожалуйста, придумайте новый.");
+
+						return false;
+					}
+				}
+			};
+
+			this._db.SaveChanges();
 
 			return true;
 		}

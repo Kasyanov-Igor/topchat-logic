@@ -44,7 +44,7 @@ namespace TopChat.Services
 
 				if (contact != null)
 				{
-					if (!this.FindContact(contact))
+					if (this.FindContact(contact))
 					{
 						this._connectiondb.UserContacts.Remove(contact);
 						this._connectiondb.SaveChanges();
@@ -66,10 +66,37 @@ namespace TopChat.Services
 		{
 			try
 			{
-				if (this._connectiondb.UserContacts.Any(a => a.UserName == contact.UserName && a.user.Login == contact.user.Login))
+				if (this._connectiondb.UserContacts.Any(a => a.UserName == contact.UserName && a.User.Login == contact.User.Login))
 				{
 					return true;
 
+				}
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception.ToString());
+			}
+
+			return false;
+		}
+
+		public bool RenameContact(string OldContact, string newContact)
+		{
+			try
+			{
+				UserContact newUser = this.GetContactUser(OldContact);
+
+				if (newUser != null)
+				{
+					if (this.DeleteContact(OldContact))
+					{
+						newUser.UserName = newContact;
+
+						if (this.AddContact(newUser))
+						{
+							return true;
+						}
+					}
 				}
 			}
 			catch (Exception exception)

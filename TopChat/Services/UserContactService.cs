@@ -17,8 +17,6 @@ namespace TopChat.Services
 
 		public bool AddContact(UserContact contact)
 		{
-			UserService u = new UserService(this._connectiondb);
-			contact.user = u.GetUser(contact.user.Login);
 			try
 			{
 				if (!this.FindContact(contact))
@@ -29,7 +27,7 @@ namespace TopChat.Services
 					return true;
 				}
 			}
-			
+
 			catch (Exception exception)
 			{
 				Console.WriteLine(exception.ToString());
@@ -37,6 +35,33 @@ namespace TopChat.Services
 
 			return false;
 		}
+
+		public bool DeleteContact(string nameContact)
+		{
+			try
+			{
+				UserContact contact = this.GetContactUser(nameContact);
+
+				if (contact != null)
+				{
+					if (!this.FindContact(contact))
+					{
+						this._connectiondb.UserContacts.Remove(contact);
+						this._connectiondb.SaveChanges();
+
+						return true;
+					}
+				}
+			}
+
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception.ToString());
+			}
+
+			return false;
+		}
+
 		public bool FindContact(UserContact contact)
 		{
 			try
@@ -53,6 +78,11 @@ namespace TopChat.Services
 			}
 
 			return false;
+		}
+
+		public UserContact? GetContactUser(string login)
+		{
+			return this._connectiondb.UserContacts.Where(u => u.UserName == login).FirstOrDefault();
 		}
 
 	}

@@ -5,7 +5,7 @@ using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-    public class UserService : IUserServes
+	public class UserService : IUserServes
 	{
 		private ADatabaseConnection _db;
 

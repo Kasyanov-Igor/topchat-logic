@@ -5,7 +5,7 @@ using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-    public class DataBaseService : IDataBaseService
+	public class DataBaseService : IDataBaseService
 	{
 		private IDataConverterService _converterService;
 
@@ -18,15 +18,31 @@ namespace TopChat.Services
 		}
 		public void AddMessage(byte[] bytesData)
 		{
+			IUserServes userServes = new UserService(this._connection);
+
 			Message message = new Message();
 
 			string receivedText = Encoding.UTF8.GetString(bytesData);
 
 			string[] dataSplitText = receivedText.Split('|');
 
-			message.DateTime = Convert.ToDateTime( dataSplitText[0]);
+			if (dataSplitText.Length <= 2)
+			{
+				message.DateTime = Convert.ToDateTime(dataSplitText[0]);
 
-			message.MediaData = new Media() { Text = dataSplitText[1] };
+				message.MediaData = new Media() { Text = dataSplitText[1] };
+
+			}
+			else
+			{
+				message.DateTime = Convert.ToDateTime(dataSplitText[0]);
+
+				message.MediaData = new Media() { Text = dataSplitText[1] };
+
+				message.Sender = userServes.GetUser(dataSplitText[2]);
+
+				message.Recipient = userServes.GetUser(dataSplitText[3]);
+			}
 
 			this._connection.Messages.Add(message);
 

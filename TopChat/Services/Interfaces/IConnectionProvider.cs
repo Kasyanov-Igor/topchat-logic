@@ -9,6 +9,6 @@ namespace TopChat.Services.Interfaces
 
 		public bool Send(byte[] data);
 
-		public byte[] StartReceive(IPEndPoint? iPEndPoint = null);
+		public void StartReceive();
 	}
 }

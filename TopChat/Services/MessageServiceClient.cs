@@ -26,7 +26,7 @@ namespace TopChat.Services
 
         public List<Message> GetMessages(User sender, SendType type)
         {
-            NetworkData networkData = this._iNetworkDataService.Get(this._iNetworkDataService.CreateRequest(sender, type));
+            NetworkData networkData = this._iNetworkDataService.CreateRequest(sender, type);
             return this._iDataConverterService.ConvertFromNetworkData(networkData);
         }
 

@@ -1,8 +1,5 @@
-﻿using SharpCompress.Common;
-using System;
+﻿using System;
 using System.IO;
-using System.Net.Sockets;
-using System.Net;
 using System.Text;
 using TopChat.Services.Interfaces;
 using System.Collections.Generic;
@@ -11,19 +8,21 @@ using TopChat.Models.Domains;
 
 namespace TopChat.Services
 {
-    public class DataConverterService : IDataConverterService
+	public class DataConverterService : IDataConverterService
 	{
-		public NetworkData ConvertToNetworkData(Message fromEntity) 
+		private ADatabaseConnection _connection = new SqliteConnection();
+
+		public NetworkData ConvertToNetworkData(Message fromEntity)
 		{
 			NetworkData result = new NetworkData();
 
-				result.DestinationIP = "127.0.0.1"; //message.Sender.GetIpFromService()
-				result.DestinationPort = 5000;
+			result.DestinationIP = "127.0.0.1"; //message.Sender.GetIpFromService()
+			result.DestinationPort = 5000;
 
 			if (fromEntity.MediaData.Text != "" && fromEntity.MediaData.PathToFile == null)
 			{
 				result.Data = new byte[1024];
-				string dataText = $"{fromEntity.DateTime}|{fromEntity.MediaData.Text}";
+				string dataText = $"{fromEntity.MediaData.Text}|{fromEntity.Sender.Login}|{fromEntity.Recipient.Login}|{fromEntity.DateTime}";
 				result.Data = Encoding.UTF8.GetBytes(dataText);
 
 				return result;
@@ -39,28 +38,27 @@ namespace TopChat.Services
 
 		public List<Message> ConvertFromNetworkData(NetworkData result)
 		{
-
-			List < Message > messages = new List < Message >();
+			List<Message> messages = new List<Message>();
 
 			byte[] received = new byte[1024];
 
-			if (Convert.ToInt32(result.Data) < 1024)
-			{
+		
 				byte[] receivedBytes = result.Data;
 				string receivedText = Encoding.UTF8.GetString(receivedBytes);
 
 				string[] splitText = receivedText.Split('|');
 
-				if (splitText[0] == "get")
+				if (splitText[0] == "read")
 				{
-					messages.Add(new Message() { });
+					foreach (var mass in this._connection.Messages)
+					{
+						if (mass.Sender.Login == splitText[2] && mass.Recipient.Password == splitText[3])
+						{
+							messages.Add(mass);
+						}
+					}
 				}
-
-			}
-			else
-			{
-
-			}
+	
 			return messages;
 		}
 	}

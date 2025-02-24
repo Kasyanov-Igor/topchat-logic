@@ -5,7 +5,7 @@ using TopChat.Services.Interfaces;
 
 namespace TopChat.Services
 {
-    public class NetworkDataService : INetworkDataService
+	public class NetworkDataService : INetworkDataService
 	{
 		private IConnectionProvider _connectionProvider;
 
@@ -22,24 +22,20 @@ namespace TopChat.Services
 
 		public NetworkData Get(NetworkData request)
 		{
-			return new NetworkData();
+			return  new NetworkData();
 		}
 
 		public NetworkData CreateRequest(User entity, SendType sendType)
 		{
-			//UdpClient u = new UdpClient(5000);
-
-			//UdpReceiveResult receivedResults = u.ReceiveAsync().Result;
-			//byte[] receivedBytes = receivedResults.Buffer;
-			//IPEndPoint remoteEndPoint = receivedResults.RemoteEndPoint;
-
 			NetworkData networkData = new NetworkData();
+
+			string data;
 
 			switch (sendType)
 			{
 				case SendType.Create:
 
-					string data = $"get|User|{entity.Login}|{entity.Password}";
+					data = $"get|{entity.Login}|{entity.Password}";
 					networkData.Data = Encoding.UTF8.GetBytes(data);
 
 					break;
@@ -50,6 +46,9 @@ namespace TopChat.Services
 
 					break;
 				case SendType.Read:
+
+					data = $"read|{entity.Login}|{entity.Password}";
+					networkData.Data = Encoding.UTF8.GetBytes(data);
 
 					break;
 			}
